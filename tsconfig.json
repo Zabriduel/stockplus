@@ -1,0 +1,21 @@
+{
+
+  "compilerOptions": {
+
+    "target": "ES2023",
+    "module": "CommonJs",
+    "moduleResolution": "node",
+    "lib": ["ES2023"],
+    "esModuleInterop": true,
+    "strict": true,
+   "skipLibCheck": true,
+    "types": ["node", "express"],
+    "rootDir": "./src",
+    "sourceMap": true,
+    "ignoreDeprecations": "6.0"
+    
+  },
+
+  "include": ["src"]
+}
+
