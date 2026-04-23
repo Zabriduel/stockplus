@@ -16,40 +16,27 @@ export class FornecedorRepository {
         return rows;
     }
     async create(dados: Omit<IFornecedor, 'id'>): Promise<ResultSetHeader> {
-        const connection = await db.getConnection();
-        try {
-            await connection.beginTransaction();
-            const sql = 'INSERT INTO fornecedores (nome_fantasia,cnpj) VALUES (?,?)';
-            console.log(dados);
-            const values = [dados._nomeFornecedor, dados._cnpj];
-            const [rows] = await db.execute<ResultSetHeader>(sql, values);
-            await connection.commit();
-            return rows
-        } catch (error) {
-            await connection.rollback();
-            throw error;
-        }
+
+        const sql = 'INSERT INTO fornecedores (nome_fantasia,cnpj) VALUES (?,?)';
+        console.log(dados);
+        const values = [dados._nomeFornecedor, dados._cnpj];
+        const [rows] = await db.execute<ResultSetHeader>(sql, values);
+        return rows
+
     }
     async update(id: number, dados: Omit<IFornecedor, 'id'>): Promise<ResultSetHeader> {
 
-        const connection = await db.getConnection();
-        try {
-            await connection.beginTransaction();
-            const sql = 'UPDATE fonecedores SET nome_fantasia =?, cnpj=? WHERE id_fornecedor =?;';
-            const values = [dados._nomeFornecedor, dados._cnpj, id];
-            const [rows] = await db.execute<ResultSetHeader>(sql, values);
-            await connection.commit();
-            return rows;
-        } catch (error) {
-            await connection.rollback();
-            throw error;
-        }
+        const sql = 'UPDATE fonecedores SET nome_fantasia =?, cnpj=? WHERE id_fornecedor =?;';
+        const values = [dados._nomeFornecedor, dados._cnpj, id];
+        const [rows] = await db.execute<ResultSetHeader>(sql, values);
+        return rows;
+
     }
 
-    async delete(id: number): Promise<ResultSetHeader>{
+    async delete(id: number): Promise<ResultSetHeader> {
         const sql = 'DELETE FROM fornecedores WHERE id_fornecedor = ?;';
         const values = [id];
-        const [rows] = await db.execute<ResultSetHeader>(sql,values);
+        const [rows] = await db.execute<ResultSetHeader>(sql, values);
         return rows;
     }
 
