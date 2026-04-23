@@ -46,4 +46,30 @@ export class FornecedorController {
         const novoCnpj = cnpj || fornecedorAtual[0].cnpj
 
     }
+    deletar = async (req: Request, res: Response) => {
+        try {
+            const idFornecedor = Number(req.query);
+            if (!idFornecedor || isNaN(idFornecedor)) {
+                throw new Error("Valor para ID inválido.");
+            }
+            const verificarId = await this._service.selecionarPorID(idFornecedor);
+            if (verificarId.length === 0) {
+                res.status(200).json({ message: "Nenhum registro encontrado para esse ID." });
+            }
+            const resultado = await this._service.deletar(idFornecedor);
+            res.status(200).json({ resultado });
+
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return res.status(500).json({
+                    message: "Ocorreu um erro no servidor.",
+                    errorMessage: error.message,
+                });
+            }
+            res.status(500).json({
+                message: "Ocorreu um erro no servidor",
+                errorMessage: "Erro desconhecido",
+            });
+        }
+    }
 }

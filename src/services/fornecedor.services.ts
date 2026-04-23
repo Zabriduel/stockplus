@@ -22,4 +22,7 @@ export class FornecedorService {
         const fornecedor = Fornecedor.editar(nomeFantasia, cnpj, id);
         return await this._repository.update(id, fornecedor);
     }
+    async deletar(id: number) {
+        return await this._repository.delete(id);
+    }
 }
