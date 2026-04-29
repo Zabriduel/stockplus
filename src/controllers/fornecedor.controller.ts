@@ -45,5 +45,7 @@ export class FornecedorController {
         const novoNome = nomeFantasia || fornecedorAtual[0].nomeFornecedor
         const novoCnpj = cnpj || fornecedorAtual[0].cnpj
 
+        
+
     }
 }

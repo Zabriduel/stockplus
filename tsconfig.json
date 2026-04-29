@@ -10,9 +10,10 @@
     "strict": true,
    "skipLibCheck": true,
     "types": ["node", "express"],
-    "sourceMap": true
+    "sourceMap": true,
+    "ignoreDeprecations": "6.0"
     
   },
 
-  "include": ["src"]
+  "include": ["src", "../../PSOF/PAGE PLATAFORMA DE AVALIACAO E GESTAO ESCOLAR/src/utils/validar.id.ts"]
 }

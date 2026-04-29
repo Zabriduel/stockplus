@@ -40,7 +40,6 @@ export class Fornecedor {
     }
 
     public static criar(nomeFornecedor: string, cnpj: string) {
-        console.log(nomeFornecedor, cnpj);
         
         return new Fornecedor(nomeFornecedor, cnpj);
     }
