@@ -1,25 +1,27 @@
 import { Request, Response } from "express";
-import { ClienteService } from "../services/cliente.service";
-export class ClienteController {
+import { TelefoneService } from "../services/telefone.service";
 
-    constructor(private _service = new ClienteService()) {}
+export class TelefoneController {
+
+    constructor(private _service = new TelefoneService()) {}
+
     selecionarTodos = async (req: Request, res: Response) => {
         try {
-            const clientes = await this._service.selecionarTodos();
-            return res.status(200).json(clientes);
+            const telefones = await this._service.selecionarTodos();
+            return res.status(200).json(telefones);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 return res.status(500).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor."});
+            return res.status(500).json({message: "Erro interno do servidor." });
         }
     };
 
     selecionarPorId = async (req: Request, res: Response) => {
         try {
             const id = Number(req.params.id);
-            const cliente = await this._service.selecionarPorId(id);
-            return res.status(200).json(cliente);
+            const telefone = await this._service.selecionarPorId(id);
+            return res.status(200).json(telefone);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
@@ -30,40 +32,22 @@ export class ClienteController {
 
     criar = async (req: Request, res: Response) => {
         try {
-
-            const {
-                cpf,
-                email,
-                fkIdPessoa
-            } = req.body;
-            const resultado = await this._service.criar(
-                cpf,
-                email,
-                fkIdPessoa
-            );
+            const { telefone } = req.body;
+            const resultado = await this._service.criar(telefone);
             return res.status(201).json(resultado);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor."});
+            return res.status(500).json({message: "Erro interno do servidor." });
         }
     };
 
     editar = async (req: Request, res: Response) => {
         try {
             const id = Number(req.params.id);
-            const {
-                cpf,
-                email,
-                fkIdPessoa
-            } = req.body;
-            const resultado = await this._service.editar(
-                id,
-                cpf,
-                email,
-                fkIdPessoa
-            );
+            const { telefone } = req.body;
+            const resultado = await this._service.editar(id, telefone);
             return res.status(200).json(resultado);
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -82,7 +66,7 @@ export class ClienteController {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
             }
-            return res.status(500).json({ message: "Erro interno do servidor."});
+            return res.status(500).json({message: "Erro interno do servidor."});
         }
     };
 }

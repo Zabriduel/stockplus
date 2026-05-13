@@ -1,13 +1,18 @@
 export class Cliente {
     private _id?: number;
-    private _nome: string;
-    private _email: string;
     private _cpf: string;
+    private _email: string;
+    private _idPessoa: number;
 
-    constructor(nome: string, email: string, cpf: string, id?: number) {
-        this._nome = nome;
-        this._email = email;
+    constructor(
+        cpf: string,
+        email: string,
+        idPessoa: number,
+        id?: number
+    ) {
         this._cpf = cpf;
+        this._email = email;
+        this._idPessoa = idPessoa;
         this._id = id;
     }
 
@@ -15,23 +20,31 @@ export class Cliente {
         return this._id;
     }
 
-    public get Nome(): string {
-        return this._nome;
+    public get Cpf(): string {
+        return this._cpf;
     }
 
     public get Email(): string {
         return this._email;
     }
 
-    public get Cpf(): string {
-        return this._cpf;
+    public get IdPessoa(): number {
+        return this._idPessoa;
     }
 
-    public static criar(nome: string, email: string, cpf: string): Cliente {
-        return new Cliente(nome, email, cpf);
+    public static criar(
+        cpf: string,
+        email: string,
+        idPessoa: number
+    ): Cliente {
+        return new Cliente(cpf, email, idPessoa);
     }
 
-    public static editar(nome: string, email: string, cpf: string): Cliente {
-        return new Cliente(nome, email, cpf);
+    public static editar(
+        cpf: string,
+        email: string,
+        idPessoa: number
+    ): Cliente {
+        return new Cliente(cpf, email, idPessoa);
     }
 }
