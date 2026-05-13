@@ -6,7 +6,6 @@ export const validarCnpj = (cnpj: string): string => {
     }
 
     const cnpjSemPontos = cnpj.replace(/\D/g, "");
-    console.log(cnpjSemPontos);
     
     return cnpjSemPontos;
 }

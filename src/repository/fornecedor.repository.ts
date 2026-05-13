@@ -10,7 +10,7 @@ export class FornecedorRepository {
         return rows;
     }
     async findById(idFornecedor: number): Promise<IFornecedor[]> {
-        const sql = 'SELECT * FROM fornecedores WHERE id=?;';
+        const sql = 'SELECT * FROM fornecedores WHERE id_fornecedor=?;';
         const values = [idFornecedor];
         const [rows] = await db.execute<IFornecedor[]>(sql, values);
         return rows;
@@ -25,7 +25,10 @@ export class FornecedorRepository {
 
     }
     async update(id: number, dados: Omit<IFornecedor, 'id'>): Promise<ResultSetHeader> {
-
+        console.log(id);
+        console.log(dados);
+        
+        
         const sql = 'UPDATE fonecedores SET nome_fantasia =?, cnpj=? WHERE id_fornecedor =?;';
         const values = [dados._nomeFornecedor, dados._cnpj, id];
         const [rows] = await db.execute<ResultSetHeader>(sql, values);
