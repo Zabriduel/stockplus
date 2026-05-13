@@ -1,9 +1,16 @@
 export class Telefone {
+
     private _id?: number;
     private _telefone: string;
+    private _fk_id_pessoa: number;
 
-    constructor(telefone: string, id?: number) {
+    constructor(
+        telefone: string,
+        fk_id_pessoa: number,
+        id?: number
+    ) {
         this._telefone = telefone;
+        this._fk_id_pessoa = fk_id_pessoa;
         this._id = id;
     }
 
@@ -15,11 +22,15 @@ export class Telefone {
         return this._telefone;
     }
 
-    public static criar(telefone: string): Telefone {
-        return new Telefone(telefone);
+    public get FkIdPessoa(): number {
+        return this._fk_id_pessoa;
     }
 
-    public static editar(telefone: string): Telefone {
-        return new Telefone(telefone);
+    public static criar(telefone: string,fk_id_pessoa: number): Telefone {
+        return new Telefone(telefone,fk_id_pessoa );
+    }
+
+    public static editar(telefone: string,fk_id_pessoa: number): Telefone {
+        return new Telefone(telefone,fk_id_pessoa);
     }
 }

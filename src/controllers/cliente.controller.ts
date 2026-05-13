@@ -1,8 +1,10 @@
+
 import { Request, Response } from "express";
 import { ClienteService } from "../services/cliente.service";
+
 export class ClienteController {
 
-    constructor(private _service = new ClienteService()) {}
+    constructor(private _service = new ClienteService()) { }
     selecionarTodos = async (req: Request, res: Response) => {
         try {
             const clientes = await this._service.selecionarTodos();
@@ -11,7 +13,7 @@ export class ClienteController {
             if (error instanceof Error) {
                 return res.status(500).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor."});
+            return res.status(500).json({ message: "Erro interno do servidor." });
         }
     };
 
@@ -24,52 +26,35 @@ export class ClienteController {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor."});
+            return res.status(500).json({ message: "Erro interno do servidor." });
         }
     };
 
     criar = async (req: Request, res: Response) => {
-        try {
 
-            const {
-                cpf,
-                email,
-                fkIdPessoa
-            } = req.body;
-            const resultado = await this._service.criar(
-                cpf,
-                email,
-                fkIdPessoa
-            );
+        try {
+            const { cpf, email, fk_id_pessoa } = req.body;
+            const resultado = await this._service.criar(cpf, email, fk_id_pessoa);
             return res.status(201).json(resultado);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor."});
+            return res.status(500).json({ message: "Erro interno do servidor." });
         }
     };
 
     editar = async (req: Request, res: Response) => {
         try {
             const id = Number(req.params.id);
-            const {
-                cpf,
-                email,
-                fkIdPessoa
-            } = req.body;
-            const resultado = await this._service.editar(
-                id,
-                cpf,
-                email,
-                fkIdPessoa
-            );
+            const { cpf, email, fk_id_pessoa } = req.body;
+            const resultado = await this._service.editar(id, cpf, email, fk_id_pessoa);
             return res.status(200).json(resultado);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor."});
+            return res.status(500).json({ message: "Erro interno do servidor." });
         }
     };
 
@@ -82,7 +67,7 @@ export class ClienteController {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
             }
-            return res.status(500).json({ message: "Erro interno do servidor."});
+            return res.status(500).json({ message: "Erro interno do servidor." });
         }
     };
 }

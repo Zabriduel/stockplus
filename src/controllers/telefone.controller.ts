@@ -3,7 +3,7 @@ import { TelefoneService } from "../services/telefone.service";
 
 export class TelefoneController {
 
-    constructor(private _service = new TelefoneService()) {}
+    constructor(private _service = new TelefoneService()) { }
 
     selecionarTodos = async (req: Request, res: Response) => {
         try {
@@ -13,7 +13,7 @@ export class TelefoneController {
             if (error instanceof Error) {
                 return res.status(500).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor." });
+            return res.status(500).json({ message: "Erro interno do servidor." });
         }
     };
 
@@ -26,34 +26,34 @@ export class TelefoneController {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor."});
+            return res.status(500).json({ message: "Erro interno do servidor." });
         }
     };
 
     criar = async (req: Request, res: Response) => {
         try {
-            const { telefone } = req.body;
-            const resultado = await this._service.criar(telefone);
+            const { telefone, fk_id_pessoa } = req.body;
+            const resultado = await this._service.criar(telefone, fk_id_pessoa);
             return res.status(201).json(resultado);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor." });
+            return res.status(500).json({ message: "Erro interno do servidor." });
         }
     };
 
     editar = async (req: Request, res: Response) => {
         try {
             const id = Number(req.params.id);
-            const { telefone } = req.body;
-            const resultado = await this._service.editar(id, telefone);
+            const { telefone, fk_id_pessoa } = req.body;
+            const resultado = await this._service.editar(id, telefone, fk_id_pessoa);
             return res.status(200).json(resultado);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor."});
+            return res.status(500).json({ message: "Erro interno do servidor." });
         }
     };
 
@@ -66,7 +66,8 @@ export class TelefoneController {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
             }
-            return res.status(500).json({message: "Erro interno do servidor."});
+
+            return res.status(500).json({ message: "Erro interno do servidor." });
         }
     };
 }

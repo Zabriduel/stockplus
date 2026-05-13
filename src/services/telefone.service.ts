@@ -1,9 +1,13 @@
 import { Telefone } from "../models/telefone.model";
+import { PessoaRepository } from "../repository/pessoa.repository";
 import { TelefoneRepository } from "../repository/telefone.repository";
 
 export class TelefoneService {
 
-    constructor(private _repository = new TelefoneRepository()) {}
+    constructor(
+        private _repository = new TelefoneRepository(),
+        private _pessoaRepository = new PessoaRepository()
+    ) {}
 
     async selecionarTodos() {
         return await this._repository.findAll();
@@ -24,53 +28,138 @@ export class TelefoneService {
         return telefone;
     }
 
-    async criar(telefone: string) {
+    async criar(
+        telefone: string,
+        fk_id_pessoa: number
+    ) {
 
-        if (!telefone || telefone.trim().length < 10 || telefone.trim().length > 11) {
-            throw new Error("Telefone deve ter entre 10 e 11 caracteres.");
+        if (!telefone) {
+            throw new Error("Telefone é obrigatório.");
         }
 
-        const telefoneExistente = await this._repository.findByTelefone(telefone);
+        telefone = telefone.replace(/\D/g, "");
+
+        if (telefone.length < 10 || telefone.length > 11) {
+            throw new Error(
+                "Telefone inválido."
+            );
+        }
+
+        if (
+            !fk_id_pessoa ||
+            isNaN(fk_id_pessoa) ||
+            fk_id_pessoa <= 0
+        ) {
+            throw new Error(
+                "Pessoa inválida."
+            );
+        }
+
+        const pessoa =
+            await this._pessoaRepository.findById(
+                fk_id_pessoa
+            );
+
+        if (pessoa.length === 0) {
+            throw new Error(
+                "Pessoa não encontrada."
+            );
+        }
+
+        const telefoneExistente =
+            await this._repository.findByTelefone(
+                telefone
+            );
 
         if (telefoneExistente.length > 0) {
-            throw new Error("Telefone já cadastrado.");
+            throw new Error(
+                "Telefone já cadastrado."
+            );
         }
 
-        const novoTelefone = Telefone.criar(telefone);
+        const novoTelefone =
+            Telefone.criar(
+                telefone,
+                fk_id_pessoa
+            );
 
-        return await this._repository.create(novoTelefone);
+        return await this._repository.create(
+            novoTelefone
+        );
     }
 
-    async editar(id: number, telefone: string) {
+    async editar(
+        id: number,
+        telefone: string,
+        fk_id_pessoa: number
+    ) {
 
         if (!id || isNaN(id) || id <= 0) {
             throw new Error("ID inválido.");
         }
 
-        const telefoneAtual = await this._repository.findById(id);
+        const atual =
+            await this._repository.findById(id);
 
-        if (telefoneAtual.length === 0) {
-            throw new Error("Telefone não encontrado.");
+        if (atual.length === 0) {
+            throw new Error(
+                "Telefone não encontrado."
+            );
         }
 
-        const novoTelefone = telefone ?? telefoneAtual[0].telefone;
+        const novoTelefone = (
+            telefone ??
+            atual[0].telefone
+        ).replace(/\D/g, "");
 
-        if (!novoTelefone || novoTelefone.trim().length < 10 || novoTelefone.trim().length > 11) {
-            throw new Error("Telefone deve ter entre 10 e 11 caracteres.");
+        const novaPessoa =
+            fk_id_pessoa ??
+            atual[0].id_pessoa;
+
+        if (
+            novoTelefone.length < 10 ||
+            novoTelefone.length > 11
+        ) {
+            throw new Error(
+                "Telefone inválido."
+            );
         }
 
-        const telefoneExistente = await this._repository.findByTelefone(novoTelefone);
+        const pessoa =
+            await this._pessoaRepository.findById(
+                novaPessoa
+            );
+
+        if (pessoa.length === 0) {
+            throw new Error(
+                "Pessoa não encontrada."
+            );
+        }
+
+        const telefoneExistente =
+            await this._repository.findByTelefone(
+                novoTelefone
+            );
 
         if (
             telefoneExistente.length > 0 &&
             telefoneExistente[0].id_telefone !== id
         ) {
-            throw new Error("Telefone já cadastrado.");
+            throw new Error(
+                "Telefone já cadastrado."
+            );
         }
 
-        const telefoneEditado = Telefone.editar(novoTelefone);
+        const telefoneEditado =
+            Telefone.editar(
+                novoTelefone,
+                novaPessoa
+            );
 
-        return await this._repository.update(id, telefoneEditado);
+        return await this._repository.update(
+            id,
+            telefoneEditado
+        );
     }
 
     async deletar(id: number) {
@@ -79,10 +168,13 @@ export class TelefoneService {
             throw new Error("ID inválido.");
         }
 
-        const telefone = await this._repository.findById(id);
+        const telefone =
+            await this._repository.findById(id);
 
         if (telefone.length === 0) {
-            throw new Error("Telefone não encontrado.");
+            throw new Error(
+                "Telefone não encontrado."
+            );
         }
 
         return await this._repository.delete(id);

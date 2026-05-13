@@ -2,7 +2,6 @@ import { Router } from "express";
 import { PessoaController } from "../controllers/pessoa.controller";
 
 const pessoaRoutes = Router();
-
 const pessoaController = new PessoaController();
 
 pessoaRoutes.get("/pessoas", pessoaController.selecionarTodos);

@@ -12,7 +12,7 @@ interface ViaCepResponse {
 }
 
 export class EnderecoClienteService {
-    constructor(private _repository = new EnderecoClienteRepository()) {}
+    constructor(private _repository = new EnderecoClienteRepository()) { }
 
     async selecionarTodos() {
         return await this._repository.findAll();
@@ -101,14 +101,11 @@ export class EnderecoClienteService {
     async editar(
         id: number,
         fk_id_cliente: number,
-        logradouro: string,
-        numero: string,
-        bairro: string,
-        cidade: string,
         cep: string,
-        uf: string,
+        numero: string,
         complemento?: string
     ) {
+
         if (!id || isNaN(id)) {
             throw new Error("ID inválido.");
         }
@@ -119,15 +116,40 @@ export class EnderecoClienteService {
             throw new Error("Endereço não encontrado.");
         }
 
+        const novoCep = (cep ?? atual[0].cep).replace("-", "").trim();
+
+        if (novoCep.length !== 8) {
+            throw new Error("CEP deve ter 8 caracteres.");
+        }
+
+        const novoNumero = numero ?? atual[0].numero;
+
+        const novoComplemento =
+            complemento ?? atual[0].complemento;
+
+        const response = await fetch(
+            `https://viacep.com.br/ws/${novoCep}/json/`
+        );
+
+        if (!response.ok) {
+            throw new Error("Erro ao consultar o CEP.");
+        }
+
+        const data = await response.json() as ViaCepResponse;
+
+        if (data.erro) {
+            throw new Error("CEP não encontrado.");
+        }
+
         const endereco = EnderecoCliente.editar(
             fk_id_cliente ?? atual[0].fk_id_cliente,
-            logradouro ?? atual[0].logradouro,
-            numero ?? atual[0].numero,
-            bairro ?? atual[0].bairro,
-            cidade ?? atual[0].cidade,
-            cep ?? atual[0].cep,
-            uf ?? atual[0].uf,
-            complemento ?? atual[0].complemento
+            data.logradouro,
+            novoNumero,
+            data.bairro,
+            data.localidade,
+            novoCep,
+            data.uf,
+            novoComplemento
         );
 
         return await this._repository.update(id, endereco);
