@@ -2,7 +2,7 @@ import { FornecedorService } from "../services/fornecedor.services";
 import { Request, Response } from "express";
 
 export class FornecedorController {
-  constructor(private _service = new FornecedorService()) {}
+  constructor(private _service = new FornecedorService()) { }
 
   selecionar = async (req: Request, res: Response) => {
     try {
@@ -56,31 +56,53 @@ export class FornecedorController {
     }
   };
   editar = async (req: Request, res: Response) => {
-    const idFornecedor = Number(req.query.idFornecedor);
-    const { nomeFantasia, cnpj } = req.body;
+    try {
+      const idFornecedor = Number(req.query.idFornecedor);
+      const { nomeFantasia, cnpj } = req.body;
+      const idPessoa = Number(req.query.idPessoa);
 
-    const fornecedorAtual = await this._service.selecionarPorID(idFornecedor);
+      const fornecedorAtual = await this._service.selecionarPorID(idFornecedor);
 
-    if (fornecedorAtual.length === 0) {
-      res.status(200).json({ message: "Nenhum fornecedor encontrado" });
-    }
+      if (fornecedorAtual.length === 0) {
+        return res.status(200).json({ message: "Nenhum fornecedor encontrado" });
+      }
 
-    const novoNome = nomeFantasia || fornecedorAtual[0].nomeFornecedor;
-    const novoCnpj = cnpj || fornecedorAtual[0].cnpj;
+      const novoNome = nomeFantasia || fornecedorAtual[0].nomeFornecedor;
+      const novoCnpj = cnpj || fornecedorAtual[0].cnpj;
+      const novaPessoa = idPessoa || fornecedorAtual[0].fkIdPessoa as number;
+      const alterado = await this._service.editar(
+        idFornecedor,
+        novoNome,
+        novoCnpj,
+        novaPessoa
+      );
 
-    const alterado = await this._service.editar(
-      idFornecedor,
-      novoNome,
-      novoCnpj,
-    );
 
       res.status(201).json({ message: "Registro alterado com sucesso", alterado });
-    
+    } catch (error: unknown) {
+      console.error(error);
+      if (error instanceof Error) {
+        return res
+          .status(500)
+          .json({
+            message: "Ocorreu um erro no servidor",
+            errorMessage: error.message,
+          });
+      }
+      return res
+        .status(500)
+        .json({
+          message: "Ocorreu um erro no servidor",
+          errorMessage: "Erro desconhecido",
+        });
+    }
+
+
   };
   deletar = async (req: Request, res: Response) => {
     try {
       const idFornecedor = Number(req.query.idFornecedor);
-      
+
       if (!idFornecedor || isNaN(idFornecedor)) {
         throw new Error("Valor para ID inválido.");
       }

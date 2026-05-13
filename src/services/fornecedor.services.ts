@@ -1,6 +1,5 @@
 import { FornecedorRepository } from "../repository/fornecedor.repository";
 import { Fornecedor } from "../models/fornecedor.models";
-import { describe } from "node:test";
 
 export class FornecedorService {
     constructor(private _repository = new FornecedorRepository()) { }
@@ -18,9 +17,9 @@ export class FornecedorService {
         return await this._repository.create(fornecedor);
     }
 
-    async editar(id: number, nomeFantasia: string, cnpj: string) {
-        const fornecedor = Fornecedor.editar(nomeFantasia, cnpj, id);
-        return await this._repository.update(id, fornecedor);
+    async editar(id: number, nomeFantasia: string, cnpj: string, idPessoa: number) {
+        const fornecedor = Fornecedor.editar(nomeFantasia, cnpj, id, idPessoa);
+        return await this._repository.update(id, fornecedor, idPessoa);
     }
     async deletar(id: number) {
         return await this._repository.delete(id);
