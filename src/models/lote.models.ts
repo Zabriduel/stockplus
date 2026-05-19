@@ -1,5 +1,5 @@
 import { RowDataPacket } from "mysql2";
-import { validarId } from "../../../../PSOF/PAGE PLATAFORMA DE AVALIACAO E GESTAO ESCOLAR/src/utils/validar.id";
+import { validarId } from "../utils/validar.id"
 
 export interface ILote extends RowDataPacket {
     idLote?: number;

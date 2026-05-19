@@ -1,5 +1,5 @@
 import express from "express";
-import { EnvVar } from "./config/EnvVar";
+import { EnvVar } from "./config/envVar";
 import router from "./routes/routes";
 
 const app = express();

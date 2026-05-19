@@ -36,12 +36,12 @@ export class FornecedorRepository {
             SET nome = ?
             WHERE id_pessoa = ?;
         `, [dados.Pessoa.Nome, idPessoa]);
-        
+
 
         const sql = 'UPDATE fornecedores SET cnpj=?, fk_id_pessoa=? WHERE id_fornecedor =?;';
-        console.log( dados._cnpj, idPessoa, id);
-        
-        const values = [ dados._cnpj, idPessoa, id];
+        console.log(dados._cnpj, idPessoa, id);
+
+        const values = [dados._cnpj, idPessoa, id];
         const [rows] = await db.execute<ResultSetHeader>(sql, values);
         return rows;
 

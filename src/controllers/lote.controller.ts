@@ -66,13 +66,13 @@ export class LoteController {
         const loteAtual = await this._service.selecionarPorID(idLote);
 
         if (loteAtual.length === 0) {
-            res.status(200).json({ message: "Nenhum fornecedor encontrado" });
+            res.status(200).json({ message: "Nenhum lote encontrado" });
         }
 
 
         const novoProduto = fkIdProduto || loteAtual[0].fk_id_produto;
         const novoFornecedor = fkIdFornecedor || loteAtual[0].fk_id_fornecedor;
-        const novoLote = lote || loteAtual[0].lote;
+        const novoLote = lote || loteAtual[0].lote;        
         const novaQuantidade = qtdLote || loteAtual[0].qtd_lote;
         const novaDataVencimento = dataVencimento || loteAtual[0].data_vencimento;
 

@@ -1,5 +1,5 @@
 import mysql, {Pool} from "mysql2/promise";
-import {EnvVar} from '../config/EnvVar'
+import {EnvVar} from '../config/envVar'
 
 class Database {
   private static instance: Database;
