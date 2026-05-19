@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { db } from "../database/connetion.database";
-=======
-import { db } from "../database/connection.database";
->>>>>>> fornecedores
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 import { Pessoa } from "../models/pessoa.model";
 
@@ -14,11 +10,7 @@ export class PessoaRepository {
     }
 
     async findById(id: number): Promise<RowDataPacket[]> {
-<<<<<<< HEAD
         const sql = "SELECT * FROM pessoa WHERE id_pessoa = ?;";
-=======
-        const sql = "SELECT * FROM pessoa WHERE idPessoa = ?;";
->>>>>>> fornecedores
         const values = [id];
         const [rows] = await db.execute<RowDataPacket[]>(sql, values);
         return rows;
