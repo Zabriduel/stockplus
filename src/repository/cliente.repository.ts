@@ -60,7 +60,7 @@ export class ClienteRepository {
     }
 
     async update(id: number, dados: Cliente): Promise<ResultSetHeader> {
-        const sql = 'UPDATE cliente SET cpf = ?, email = ?, fk_id_pessoa = ? WHERE id_cliente = ?;';
+        const sql = 'UPDATE clientes SET cpf = ?, email = ?, fk_id_pessoa = ? WHERE id_cliente = ?;';
         const values = [dados.Cpf,dados.Email,dados.IdPessoa,id];
         const [rows] = await db.execute<ResultSetHeader>(sql, values);
         return rows;

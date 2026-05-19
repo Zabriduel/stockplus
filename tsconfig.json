@@ -10,7 +10,8 @@
     "types": ["node", "express"],
     "outDir": "./dist",
     "rootDir": "./src",
-    "sourceMap": true
+    "sourceMap": true,
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src"]
 }
