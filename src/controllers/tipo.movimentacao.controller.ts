@@ -56,6 +56,7 @@ export class TipoMovimentacaoController {
           message: "Novo registro inserido com sucesso!",
           data: resultado,
         });
+        
     } catch (error: unknown) {
       console.error(error);
       if (error instanceof Error) {

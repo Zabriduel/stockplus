@@ -32,7 +32,7 @@ export class MovimentacaoRepository {
     } 
 
     async update(id: number, dados: Omit<IMovimentacao, 'id'>):Promise<ResultSetHeader> {
-        const sql='UPDATE movimentacoes SET fk_id_lote=?, fk_id_tipo_mov=?, qnt_movimentada=?, data_movimentacao=? WHERE id_movimentacao =?;';
+        const sql='UPDATE movimentacoes SET fk_id_lote=?, fk_id_tipo_mov=?, qnt_movimentada=?, data_movimentacao=? WHERE id_movimentacoes =?;';
         const values = [dados._fkIdLote, dados._fkIdTipoMov, dados._qntMovimentada, dados._dataMovimentacao, id];
         const [rows] = await db.execute<ResultSetHeader>(sql, values);
         return rows;
