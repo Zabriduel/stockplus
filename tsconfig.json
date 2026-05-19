@@ -1,11 +1,5 @@
 {
-<<<<<<< HEAD
   "compilerOptions": {
-=======
-
-  "compilerOptions": {
-
->>>>>>> movimentacoes
     "target": "ES2023",
     "module": "CommonJs",
     "moduleResolution": "node",
@@ -14,18 +8,10 @@
     "strict": true,
    "skipLibCheck": true,
     "types": ["node", "express"],
-<<<<<<< HEAD
     "outDir": "./dist",
     "rootDir": "./src",
     "sourceMap": true,
     "ignoreDeprecations": "6.0"
   },
-=======
-    "rootDir": "./src",
-    "sourceMap": true
-    
-  },
-
->>>>>>> movimentacoes
   "include": ["src"]
 }
