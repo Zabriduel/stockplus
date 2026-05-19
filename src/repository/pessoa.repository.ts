@@ -10,7 +10,7 @@ export class PessoaRepository {
     }
 
     async findById(id: number): Promise<RowDataPacket[]> {
-        const sql = "SELECT * FROM pessoa WHERE idPessoa = ?;";
+        const sql = "SELECT * FROM pessoa WHERE id_pessoa = ?;";
         const values = [id];
         const [rows] = await db.execute<RowDataPacket[]>(sql, values);
         return rows;
@@ -34,18 +34,14 @@ export class PessoaRepository {
     }
 
     async update(id: number, dados: Pessoa): Promise<ResultSetHeader> {
-        const sql = `
-            UPDATE pessoa
-            SET nome = ?
-            WHERE idPessoa = ?;
-        `;
+        const sql = 'UPDATE pessoa SET nome = ? WHERE id_pessoa = ?;';
         const values = [dados.Nome, id];
         const [rows] = await db.execute<ResultSetHeader>(sql, values);
         return rows;
     }
 
     async delete(id: number): Promise<ResultSetHeader> {
-        const sql = "DELETE FROM pessoa WHERE idPessoa = ?;";
+        const sql = "DELETE FROM pessoa WHERE id_pessoa = ?;";
         const values = [id];
         const [rows] = await db.execute<ResultSetHeader>(sql, values);
         return rows;
