@@ -1,4 +1,4 @@
-import { db } from "../database/connetion.database";
+import { db } from "../database/connection.database";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 import { EnderecoCliente } from "../models/endereco.cliente.model";
 

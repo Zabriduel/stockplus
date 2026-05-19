@@ -1,0 +1,153 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: stockplus
+meta:
+  id: wrk_355e6dea24c748cd9d87280419cfb07e
+  created: 1776865111365
+  modified: 1776865111365
+  description: ""
+collection:
+  - name: Tipos Movimentações
+    meta:
+      id: fld_058b67fcd86848058f4a1015b9a9a895
+      created: 1776865136745
+      modified: 1776865136745
+      sortKey: -1776865136745
+      description: ""
+    children:
+      - url: localhost:8000/tiposMovimentacoes
+        name: SELECT
+        meta:
+          id: req_33728695501f4193a466a8099fb66c32
+          created: 1776865140712
+          modified: 1776865901778
+          isPrivate: false
+          description: ""
+          sortKey: -1776865606062
+        method: GET
+        parameters:
+          - name: id
+            value: ""
+            description: ""
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/tiposMovimentacoes
+        name: INSERT
+        meta:
+          id: req_63b55c0d240245dea1df0366882664e2
+          created: 1776865766547
+          modified: 1776865891016
+          isPrivate: false
+          description: ""
+          sortKey: -1776865605962
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"tipoMov" : "Saída"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/tiposMovimentacoes
+        name: UPDATE
+        meta:
+          id: req_bd6dd693d72f4db7a3337359c9d4c424
+          created: 1776865907934
+          modified: 1776866105544
+          isPrivate: false
+          description: ""
+          sortKey: -1776865605862
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"tipoMov" : "Entrada"
+            }
+        parameters:
+          - name: id
+            value: "1"
+            description: ""
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/tiposMovimentacoes
+        name: DELETE
+        meta:
+          id: req_cce9c251d8754bfabe9c583e1a7cda23
+          created: 1776866114714
+          modified: 1776866190114
+          isPrivate: false
+          description: ""
+          sortKey: -1776865605762
+        method: DELETE
+        parameters:
+          - name: id
+            value: "3"
+            description: ""
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_19b8a4246c7e43488846f7198a94676f70e06f01
+    created: 1776865111377
+    modified: 1776865111377
+environments:
+  name: Base Environment
+  meta:
+    id: env_19b8a4246c7e43488846f7198a94676f70e06f01
+    created: 1776865111372
+    modified: 1776865111372
+    isPrivate: false
