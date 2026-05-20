@@ -5,13 +5,16 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Schema stockplus
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
 -- Schema stockplus
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `stockplus` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `stockplus` DEFAULT CHARACTER SET utf8mb3 ;
 USE `stockplus` ;
 
 -- -----------------------------------------------------
@@ -21,7 +24,92 @@ CREATE TABLE IF NOT EXISTS `stockplus`.`categorias` (
   `id_categoria` INT NOT NULL AUTO_INCREMENT,
   `nome_categoria` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id_categoria`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `stockplus`.`pessoa`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `stockplus`.`pessoa` (
+  `id_pessoa` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id_pessoa`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 14
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `stockplus`.`clientes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `stockplus`.`clientes` (
+  `id_cliente` INT NOT NULL AUTO_INCREMENT,
+  `cpf` CHAR(11) NOT NULL,
+  `email` VARCHAR(100) NULL DEFAULT NULL,
+  `data_cadastro` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fk_id_pessoa` INT NOT NULL,
+  PRIMARY KEY (`id_cliente`),
+  UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  INDEX `fk_clientes_pessoa1_idx` (`fk_id_pessoa` ASC) VISIBLE,
+  CONSTRAINT `fk_clientes_pessoa1`
+    FOREIGN KEY (`fk_id_pessoa`)
+    REFERENCES `stockplus`.`pessoa` (`id_pessoa`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `stockplus`.`enderecos_clientes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `stockplus`.`enderecos_clientes` (
+  `id_endereco` INT NOT NULL AUTO_INCREMENT,
+  `fk_id_cliente` INT NOT NULL,
+  `logradouro` VARCHAR(100) NOT NULL,
+  `numero` VARCHAR(15) NOT NULL,
+  `bairro` VARCHAR(100) NOT NULL,
+  `cidade` VARCHAR(100) NOT NULL,
+  `cep` CHAR(8) NOT NULL,
+  `uf` CHAR(2) NOT NULL,
+  `complemento` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_endereco`),
+  INDEX `fk_id_cliente_idx` (`fk_id_cliente` ASC) VISIBLE,
+  CONSTRAINT `fk_id_cliente_endereco`
+    FOREIGN KEY (`fk_id_cliente`)
+    REFERENCES `stockplus`.`clientes` (`id_cliente`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `stockplus`.`fornecedores`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `stockplus`.`fornecedores` (
+  `id_fornecedor` INT NOT NULL AUTO_INCREMENT,
+  `cnpj` CHAR(14) NOT NULL,
+  `fk_id_pessoa` INT NOT NULL,
+  PRIMARY KEY (`id_fornecedor`),
+  INDEX `fk_fornecedores_pessoa1_idx` (`fk_id_pessoa` ASC) VISIBLE,
+  CONSTRAINT `fk_fornecedores_pessoa1`
+    FOREIGN KEY (`fk_id_pessoa`)
+    REFERENCES `stockplus`.`pessoa` (`id_pessoa`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `stockplus`.`imagens`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `stockplus`.`imagens` (
+  `id_imagem` INT NOT NULL AUTO_INCREMENT,
+  `vinculo_imagem` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id_imagem`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -37,71 +125,9 @@ CREATE TABLE IF NOT EXISTS `stockplus`.`produtos` (
   INDEX `fk_id_categoria_idx` (`fk_id_categoria` ASC) VISIBLE,
   CONSTRAINT `fk_id_categoria`
     FOREIGN KEY (`fk_id_categoria`)
-    REFERENCES `stockplus`.`categorias` (`id_categoria`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `stockplus`.`pessoa`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `stockplus`.`pessoa` (
-  `idPessoa` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`idPessoa`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `stockplus`.`fornecedores`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `stockplus`.`fornecedores` (
-  `id_fornecedor` INT NOT NULL AUTO_INCREMENT,
-  `cnpj` CHAR(14) NOT NULL,
-  `fk_id_pessoa` INT NOT NULL,
-  PRIMARY KEY (`id_fornecedor`),
-  INDEX `fk_fornecedores_pessoa1_idx` (`fk_id_pessoa` ASC) VISIBLE,
-  CONSTRAINT `fk_fornecedores_pessoa1`
-    FOREIGN KEY (`fk_id_pessoa`)
-    REFERENCES `stockplus`.`pessoa` (`idPessoa`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `stockplus`.`produto_fornecedor`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `stockplus`.`produto_fornecedor` (
-  `id_prod_fornecedor` INT NOT NULL AUTO_INCREMENT,
-  `fk_id_produto` INT NOT NULL,
-  `fk_id_fornecedor` INT NOT NULL,
-  `quantidade` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id_prod_fornecedor`),
-  INDEX `fk_id_produto_idx` (`fk_id_produto` ASC) VISIBLE,
-  INDEX `fk_id_fornecedor_idx` (`fk_id_fornecedor` ASC) VISIBLE,
-  CONSTRAINT `fk_id_produto`
-    FOREIGN KEY (`fk_id_produto`)
-    REFERENCES `stockplus`.`produtos` (`id_produto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_id_fornecedor`
-    FOREIGN KEY (`fk_id_fornecedor`)
-    REFERENCES `stockplus`.`fornecedores` (`id_fornecedor`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `stockplus`.`imagens`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `stockplus`.`imagens` (
-  `id_imagem` INT NOT NULL AUTO_INCREMENT,
-  `vinculo_imagem` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id_imagem`))
-ENGINE = InnoDB;
+    REFERENCES `stockplus`.`categorias` (`id_categoria`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -116,36 +142,12 @@ CREATE TABLE IF NOT EXISTS `stockplus`.`imagens_produtos` (
   INDEX `fk_id_produto_idx` (`fk_id_produto` ASC) VISIBLE,
   CONSTRAINT `fk_id_imagem`
     FOREIGN KEY (`fk_id_imagem`)
-    REFERENCES `stockplus`.`imagens` (`id_imagem`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `stockplus`.`imagens` (`id_imagem`),
   CONSTRAINT `fk_id_produto_images`
     FOREIGN KEY (`fk_id_produto`)
-    REFERENCES `stockplus`.`produtos` (`id_produto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `stockplus`.`clientes`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `stockplus`.`clientes` (
-  `id_cliente` INT NOT NULL AUTO_INCREMENT,
-  `cpf` CHAR(11) NOT NULL,
-  `email` VARCHAR(100) NULL,
-  `data_cadastro` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fk_id_pessoa` INT NOT NULL,
-  PRIMARY KEY (`id_cliente`),
-  UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) VISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  INDEX `fk_clientes_pessoa1_idx` (`fk_id_pessoa` ASC) VISIBLE,
-  CONSTRAINT `fk_clientes_pessoa1`
-    FOREIGN KEY (`fk_id_pessoa`)
-    REFERENCES `stockplus`.`pessoa` (`idPessoa`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `stockplus`.`produtos` (`id_produto`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -161,51 +163,9 @@ CREATE TABLE IF NOT EXISTS `stockplus`.`pedidos` (
   INDEX `fk_id_cliente_idx` (`fk_id_cliente` ASC) VISIBLE,
   CONSTRAINT `fk_id_cliente`
     FOREIGN KEY (`fk_id_cliente`)
-    REFERENCES `stockplus`.`clientes` (`id_cliente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `stockplus`.`telefone`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `stockplus`.`telefone` (
-  `id_telefone` INT NOT NULL AUTO_INCREMENT,
-  `telefone` VARCHAR(11) NOT NULL,
-  `fk_id_pessoa` INT NOT NULL,
-  PRIMARY KEY (`id_telefone`),
-  UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE,
-  INDEX `fk_telefone_pessoa1_idx` (`fk_id_pessoa` ASC) VISIBLE,
-  CONSTRAINT `fk_telefone_pessoa1`
-    FOREIGN KEY (`fk_id_pessoa`)
-    REFERENCES `stockplus`.`pessoa` (`idPessoa`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `stockplus`.`enderecos_clientes`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `stockplus`.`enderecos_clientes` (
-  `id_endereco` INT NOT NULL AUTO_INCREMENT,
-  `fk_id_cliente` INT NOT NULL,
-  `logradouro` VARCHAR(100) NOT NULL,
-  `numero` VARCHAR(15) NOT NULL,
-  `bairro` VARCHAR(100) NOT NULL,
-  `cidade` VARCHAR(100) NOT NULL,
-  `cep` CHAR(8) NOT NULL,
-  `uf` CHAR(2) NOT NULL,
-  `complemento` VARCHAR(100) NULL,
-  PRIMARY KEY (`id_endereco`),
-  INDEX `fk_id_cliente_idx` (`fk_id_cliente` ASC) VISIBLE,
-  CONSTRAINT `fk_id_cliente_endereco`
-    FOREIGN KEY (`fk_id_cliente`)
-    REFERENCES `stockplus`.`clientes` (`id_cliente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `stockplus`.`clientes` (`id_cliente`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -219,17 +179,14 @@ CREATE TABLE IF NOT EXISTS `stockplus`.`itens_pedido` (
   PRIMARY KEY (`id_itens_pedido`),
   INDEX `fk_id_produto_idx` (`fk_id_produto` ASC) VISIBLE,
   INDEX `fk_id_pedido_idx` (`fk_id_pedido` ASC) VISIBLE,
-  CONSTRAINT `fk_id_produto_itens`
-    FOREIGN KEY (`fk_id_produto`)
-    REFERENCES `stockplus`.`produtos` (`id_produto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_id_pedido`
     FOREIGN KEY (`fk_id_pedido`)
-    REFERENCES `stockplus`.`pedidos` (`id_pedido`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `stockplus`.`pedidos` (`id_pedido`),
+  CONSTRAINT `fk_id_produto_itens`
+    FOREIGN KEY (`fk_id_produto`)
+    REFERENCES `stockplus`.`produtos` (`id_produto`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -247,15 +204,12 @@ CREATE TABLE IF NOT EXISTS `stockplus`.`lotes` (
   INDEX `fk_lotes_fornecedores1_idx` (`fk_id_fornecedor` ASC) VISIBLE,
   CONSTRAINT `fk_id_produto_lote`
     FOREIGN KEY (`fk_id_produto`)
-    REFERENCES `stockplus`.`produtos` (`id_produto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `stockplus`.`produtos` (`id_produto`),
   CONSTRAINT `fk_lotes_fornecedores1`
     FOREIGN KEY (`fk_id_fornecedor`)
-    REFERENCES `stockplus`.`fornecedores` (`id_fornecedor`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `stockplus`.`fornecedores` (`id_fornecedor`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -265,7 +219,8 @@ CREATE TABLE IF NOT EXISTS `stockplus`.`tipos_movimentacoes` (
   `id_tipo_mov` INT NOT NULL AUTO_INCREMENT,
   `tipo_movimentacao` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id_tipo_mov`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -282,15 +237,51 @@ CREATE TABLE IF NOT EXISTS `stockplus`.`movimentacoes` (
   INDEX `fk_id_tipo_mov_idx` (`fk_id_tipo_mov` ASC) VISIBLE,
   CONSTRAINT `fk_id_lote`
     FOREIGN KEY (`fk_id_lote`)
-    REFERENCES `stockplus`.`lotes` (`id_lote`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `stockplus`.`lotes` (`id_lote`),
   CONSTRAINT `fk_id_tipo_mov`
     FOREIGN KEY (`fk_id_tipo_mov`)
-    REFERENCES `stockplus`.`tipos_movimentacoes` (`id_tipo_mov`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `stockplus`.`tipos_movimentacoes` (`id_tipo_mov`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `stockplus`.`produto_fornecedor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `stockplus`.`produto_fornecedor` (
+  `id_prod_fornecedor` INT NOT NULL AUTO_INCREMENT,
+  `fk_id_produto` INT NOT NULL,
+  `fk_id_fornecedor` INT NOT NULL,
+  `quantidade` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`id_prod_fornecedor`),
+  INDEX `fk_id_produto_idx` (`fk_id_produto` ASC) VISIBLE,
+  INDEX `fk_id_fornecedor_idx` (`fk_id_fornecedor` ASC) VISIBLE,
+  CONSTRAINT `fk_id_fornecedor`
+    FOREIGN KEY (`fk_id_fornecedor`)
+    REFERENCES `stockplus`.`fornecedores` (`id_fornecedor`),
+  CONSTRAINT `fk_id_produto`
+    FOREIGN KEY (`fk_id_produto`)
+    REFERENCES `stockplus`.`produtos` (`id_produto`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `stockplus`.`telefone`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `stockplus`.`telefone` (
+  `id_telefone` INT NOT NULL AUTO_INCREMENT,
+  `telefone` VARCHAR(11) NOT NULL,
+  `fk_id_pessoa` INT NOT NULL,
+  PRIMARY KEY (`id_telefone`),
+  UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE,
+  INDEX `fk_telefone_pessoa1_idx` (`fk_id_pessoa` ASC) VISIBLE,
+  CONSTRAINT `fk_telefone_pessoa1`
+    FOREIGN KEY (`fk_id_pessoa`)
+    REFERENCES `stockplus`.`pessoa` (`id_pessoa`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

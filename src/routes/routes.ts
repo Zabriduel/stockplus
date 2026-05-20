@@ -1,6 +1,6 @@
 import { Router } from "express";
-import clienteRoutes from "./cliente.route";
-import enderecoRoutes from "./endereco.cliente.route";
+import clienteRoutes from "./cliente.routes";
+import enderecoRoutes from "./endereco.cliente.routes";
 import telefoneRoutes from "./telefone.routes";
 import pessoaRoutes from "./pessoa.route";
 import fornecedorRoutes from "./fornecedor.routes";
