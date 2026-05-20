@@ -28,11 +28,3 @@ SELECT * FROM vw_vencimento_45_dias;
 SELECT * FROM vw_vencimento_90_dias;
 SELECT * FROM vw_lote_baixo;
 
-INSERT INTO lotes 
-(fk_id_produto, lote, qtd_lote, data_vencimento, fk_id_fornecedor)
-VALUES
-(1, 'LT001', 15, DATE_ADD(CURDATE(), INTERVAL 45 DAY), 2),
-(1, 'LT002', 50, DATE_ADD(CURDATE(), INTERVAL 90 DAY), 2),
-(2, 'LT003', 5, DATE_ADD(CURDATE(), INTERVAL 45 DAY), 4),
-(2, 'LT004', 100, DATE_ADD(CURDATE(), INTERVAL 120 DAY), 4),
-(1, 'LT005', 18, DATE_ADD(CURDATE(), INTERVAL 90 DAY), 2);
