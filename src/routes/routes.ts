@@ -9,6 +9,8 @@ import movimentacaoRoutes from "./movimentacao.routes";
 import tipoMovimentacaoRoutes from "./tipo.movimentacao.routes";
 import produtoRoutes from "./produto.routes";
 import alertaRoutes from "./alerta.routes";
+import itensRoutes from "./itens.pedido.routes";
+import pedidoRoutes from "./pedido.routes";
 
 
 const router = Router();
@@ -23,5 +25,7 @@ router.use('/', movimentacaoRoutes);
 router.use('/', tipoMovimentacaoRoutes);
 router.use('/', produtoRoutes);
 router.use('/', alertaRoutes);
+router.use('/',itensRoutes);
+router.use('/', pedidoRoutes);
 
 export default router;
