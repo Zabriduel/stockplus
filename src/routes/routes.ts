@@ -11,6 +11,7 @@ import produtoRoutes from "./produto.routes";
 import imagemRoutes from "./imagem.routes";
 import categoriaRoutes from "./categoria.routes";
 import pedidoRoutes from "./pedido.routes";
+import alertaRoutes from "./alerta.routes";
 
 
 const router = Router();
@@ -27,5 +28,6 @@ router.use('/', produtoRoutes);
 router.use('/', imagemRoutes);
 router.use('/', categoriaRoutes);
 router.use('/', pedidoRoutes)
+router.use('/', alertaRoutes);
 
 export default router;
