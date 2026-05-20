@@ -1,8 +1,9 @@
 import { FornecedorService } from "../services/fornecedor.services";
+import { PessoaService } from "../services/pessoa.service";
 import { Request, Response } from "express";
 
 export class FornecedorController {
-  constructor(private _service = new FornecedorService()) { }
+  constructor(private _service = new FornecedorService(), private _pessoaService = new PessoaService()) { }
 
   selecionar = async (req: Request, res: Response) => {
     try {
@@ -66,6 +67,8 @@ export class FornecedorController {
       if (fornecedorAtual.length === 0) {
         return res.status(200).json({ message: "Nenhum fornecedor encontrado" });
       }
+
+      const pessoa = await this._pessoaService.selecionarPorId(idPessoa);
 
       const novoNome = nomeFantasia || fornecedorAtual[0].nomeFornecedor;
       const novoCnpj = cnpj || fornecedorAtual[0].cnpj;

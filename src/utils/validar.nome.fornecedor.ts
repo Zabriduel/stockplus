@@ -1,5 +1,3 @@
-import { error } from "node:console";
-
 export const validarNomeFornecedor = (nome: string): string => {
     if (!nome || nome.trim().length < 3) {
         throw new Error('Nome deve ter 3 caracteres ou mais');
@@ -10,8 +8,10 @@ export const validarNomeFornecedor = (nome: string): string => {
     if (nome.trim().length > 100) {
         throw new Error('Nome deve ter no máximo 100 caracteres');
     }
-
-    return nome;
+    const nomeClean = nome.trim()
+    console.log(nomeClean);
+    
+        return nomeClean;
 }
 
 

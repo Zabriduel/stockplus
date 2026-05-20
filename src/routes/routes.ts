@@ -2,11 +2,12 @@ import { Router } from "express";
 import clienteRoutes from "./cliente.routes";
 import enderecoRoutes from "./endereco.cliente.routes";
 import telefoneRoutes from "./telefone.routes";
-import pessoaRoutes from "./pessoa.route";
+import pessoaRoutes from "./pessoa.routes";
 import fornecedorRoutes from "./fornecedor.routes";
 import loteRoutes from "./lote.routes";
 import movimentacaoRoutes from "./movimentacao.routes";
 import tipoMovimentacaoRoutes from "./tipo.movimentacao.routes";
+import produtoRoutes from "./produto.routes";
 
 
 const router = Router();
@@ -19,5 +20,7 @@ router.use('/', telefoneRoutes);
 router.use('/', pessoaRoutes)
 router.use('/', movimentacaoRoutes);
 router.use('/', tipoMovimentacaoRoutes);
+router.use('/', produtoRoutes);
+router.use('/', )
 
 export default router;
