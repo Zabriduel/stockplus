@@ -8,6 +8,8 @@ import loteRoutes from "./lote.routes";
 import movimentacaoRoutes from "./movimentacao.routes";
 import tipoMovimentacaoRoutes from "./tipo.movimentacao.routes";
 import produtoRoutes from "./produto.routes";
+import imagemRoutes from "./imagem.routes";
+import categoriaRoutes from "./categoria.routes";
 
 
 const router = Router();
@@ -21,6 +23,7 @@ router.use('/', pessoaRoutes)
 router.use('/', movimentacaoRoutes);
 router.use('/', tipoMovimentacaoRoutes);
 router.use('/', produtoRoutes);
-router.use('/', )
+router.use('/', imagemRoutes);
+router.use('/', categoriaRoutes)
 
 export default router;
