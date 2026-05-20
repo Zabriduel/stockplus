@@ -8,6 +8,7 @@ import loteRoutes from "./lote.routes";
 import movimentacaoRoutes from "./movimentacao.routes";
 import tipoMovimentacaoRoutes from "./tipo.movimentacao.routes";
 import produtoRoutes from "./produto.routes";
+import alertaRoutes from "./alerta.routes";
 
 
 const router = Router();
@@ -21,6 +22,6 @@ router.use('/', pessoaRoutes)
 router.use('/', movimentacaoRoutes);
 router.use('/', tipoMovimentacaoRoutes);
 router.use('/', produtoRoutes);
-router.use('/', )
+router.use('/', alertaRoutes);
 
 export default router;
