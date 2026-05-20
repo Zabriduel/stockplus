@@ -38,27 +38,51 @@ export class ProdutoController {
     criar = async (req: Request, res: Response) => {
         try {
             const { nome_produto, valor_produto, fk_id_categoria } = req.body;
-            const resultado = await this._service.criar(nome_produto, Number(valor_produto), Number(fk_id_categoria));
-            return res.status(201).json({message: "Produto criado com sucesso.", resultado});
+
+            if (!req.file) {
+                return res.status(400).json({
+                    message: "Imagem do produto não enviada."
+                });
+            }
+
+            const resultado = await this._service.criar(
+                nome_produto,
+                Number(valor_produto),
+                Number(fk_id_categoria),
+                req.file.filename
+            );
+
+            return res.status(201).json({
+                message: "Produto criado com imagem com sucesso.",
+                resultado,
+                imagem: req.file.filename
+            });
+
         } catch (error) {
             console.error(error);
+
             if (error instanceof Error) {
-                return res.status(400).json({ message: error.message });
+                return res.status(400).json({
+                    message: error.message
+                });
             }
-            return res.status(500).json({ message: "Erro interno no servidor." });
-        }
+
+            return res.status(500).json({
+                message: "Erro interno no servidor."
+            });
+        };
     };
 
     editar = async (req: Request, res: Response) => {
         try {
             const id = validarId(Number(req.params.id));
-            const { nome_produto, valor_produto, fk_id_categoria} = req.body;
+            const { nome_produto, valor_produto, fk_id_categoria } = req.body;
             const produto = await this._service.selecionarPorId(id);
             if (produto.length < 1) {
                 return res.status(404).json({ message: "Produto não encontrado." });
             }
             const resultado = await this._service.editar(id, nome_produto, Number(valor_produto), Number(fk_id_categoria));
-            return res.status(200).json({message: "Produto atualizado com sucesso.", resultado});
+            return res.status(200).json({ message: "Produto atualizado com sucesso.", resultado });
         } catch (error) {
             console.error(error);
             if (error instanceof Error) {
