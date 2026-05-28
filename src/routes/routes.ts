@@ -13,6 +13,7 @@ import categoriaRoutes from "./categoria.routes";
 import alertaRoutes from "./alerta.routes";
 import itensRoutes from "./itens.pedido.routes";
 import pedidoRoutes from "./pedido.routes";
+import authRoutes from "./auth.routes";
 
 
 const router = Router();
@@ -30,7 +31,8 @@ router.use('/', imagemRoutes);
 router.use('/', categoriaRoutes);
 router.use('/', pedidoRoutes)
 router.use('/', alertaRoutes);
-router.use('/',itensRoutes);
+router.use('/', itensRoutes);
 router.use('/', pedidoRoutes);
+router.use('/', authRoutes)
 
 export default router;
