@@ -13,7 +13,7 @@ import categoriaRoutes from "./categoria.routes";
 import alertaRoutes from "./alerta.routes";
 import itensRoutes from "./itens.pedido.routes";
 import pedidoRoutes from "./pedido.routes";
-
+import relatorioRoutes from "./relatorio.routes";
 
 const router = Router();
 
@@ -32,5 +32,6 @@ router.use('/', pedidoRoutes)
 router.use('/', alertaRoutes);
 router.use('/',itensRoutes);
 router.use('/', pedidoRoutes);
+router.use('/', relatorioRoutes);
 
 export default router;
