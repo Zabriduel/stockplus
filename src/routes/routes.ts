@@ -30,7 +30,7 @@ router.use('/', imagemRoutes);
 router.use('/', categoriaRoutes);
 router.use('/', pedidoRoutes)
 router.use('/', alertaRoutes);
-router.use('/',itensRoutes);
+router.use('/', itensRoutes);
 router.use('/', pedidoRoutes);
 router.use('/', relatorioRoutes);
 

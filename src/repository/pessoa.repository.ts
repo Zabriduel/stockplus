@@ -25,8 +25,7 @@ export class PessoaRepository {
 
     async create(dados: Pessoa): Promise<ResultSetHeader> {
         const sql = `
-            INSERT INTO pessoa (nome)
-            VALUES (?);
+            INSERT INTO pessoa (nome) VALUES (?);
         `;
         const values = [dados.Nome];
         const [rows] = await db.execute<ResultSetHeader>(sql, values);
