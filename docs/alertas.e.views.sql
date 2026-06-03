@@ -22,6 +22,13 @@
 		ON l.fk_id_produto = p.id_produto
 	GROUP BY p.id_produto, p.nome_produto;
 
+	CREATE VIEW vw_lote_relatorio AS
+	SELECT lotes.id_lote, lotes.qtd_lote, lotes.data_vencimento, fornecedores.cnpj, produtos.nome_produto
+	FROM lotes
+	JOIN fornecedores ON lotes.fk_id_fornecedor = fornecedores.id_fornecedor
+	JOIN produtos ON lotes.fk_id_produto = produtos.id_produto;
+
+
 
 	SELECT * FROM vw_relatorio_produtos_estoque;
 	SELECT * FROM vw_vencimento_45_dias;
