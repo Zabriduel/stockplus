@@ -32,7 +32,7 @@ export class ProdutoService {
         );
 
         const produtoCriado =
-            await this._repository.create(produto);
+            await this._repository.create(produto, vinculoImagem);
 
         const imagemCriada =
             await this._imagemService.criar(vinculoImagem);

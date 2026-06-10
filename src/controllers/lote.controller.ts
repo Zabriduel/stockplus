@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { LoteService } from "../services/lote.services";
+import { LoteService } from "../services/lote.service";
 
 export class LoteController {
     constructor(private _service = new LoteService()) { }

@@ -1,4 +1,4 @@
-import { FornecedorService } from "../services/fornecedor.services";
+import { FornecedorService } from "../services/fornecedor.service";
 import { PessoaService } from "../services/pessoa.service";
 import { Request, Response } from "express";
 

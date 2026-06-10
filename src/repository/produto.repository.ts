@@ -6,19 +6,21 @@ export class ProdutoRepository {
 
     async findAll(): Promise<IProduto[]> {
         const sql = `
-            SELECT p.id_produto, p.nome_produto, p.valor_produto, p.data_cadastro, c.nome_categoria
+            SELECT p.id_produto, p.nome_produto, p.valor_produto, p.data_cadastro,p.vinculo_imagem, c.nome_categoria, p.fk_id_categoria
             FROM produtos p
             INNER JOIN categorias c
                 ON c.id_categoria = p.fk_id_categoria
             ORDER BY p.id_produto;
         `;
         const [rows] = await db.execute<IProduto[]>(sql);
+
+
         return rows;
     }
 
     async findById(id: number): Promise<IProduto[]> {
         const sql = `
-            SELECT p.id_produto, p.nome_produto, p.valor_produto, p.data_cadastro, c.nome_categoria
+            SELECT p.id_produto, p.nome_produto, p.valor_produto, p.data_cadastro, p.vinculo_imagem, c.nome_categoria
             FROM produtos p
             INNER JOIN categorias c
                 ON c.id_categoria = p.fk_id_categoria
@@ -28,10 +30,10 @@ export class ProdutoRepository {
         return rows;
     }
 
-    async create(produto: Produto): Promise<ResultSetHeader> {
-        const sql = `INSERT INTO produtos (fk_id_categoria, nome_produto, valor_produto) VALUES (?, ?, ?);`;
-        const values = [produto.idCategoria, produto.nome, produto.valor];
-        const [result] = await db.execute<ResultSetHeader>(sql,values);
+    async create(produto: Produto, vinculoImagem:string): Promise<ResultSetHeader> {
+        const sql = `INSERT INTO produtos (fk_id_categoria, nome_produto, valor_produto, vinculo_imagem) VALUES (?, ?, ?,?);`;
+        const values = [produto.idCategoria, produto.nome, produto.valor, vinculoImagem];
+        const [result] = await db.execute<ResultSetHeader>(sql, values);
         return result;
     }
 
